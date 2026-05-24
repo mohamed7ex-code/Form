@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>إضافة وحدة جديدة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: #F0F4F8;
+    min-height: 100vh;
+    padding: 0 0 40px;
+  }
+
+  .header {
+    background: #1F4E79;
+    padding: 20px 20px 24px;
+    color: #fff;
+  }
+
+  .header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .header p {
+    font-size: 13px;
+    opacity: 0.75;
+  }
+
+  .form-body {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .card-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1F4E79;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #EEF2F6;
+  }
+
+  .field { margin-bottom: 12px; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4A5568;
+    margin-bottom: 6px;
+  }
+
+  .required::after {
+    content: ' *';
+    color: #E53E3E;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 10px;
+    background: #FAFBFC;
+    color: #1A202C;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5568' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 14px center;
+    padding-left: 36px;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: #1F4E79;
+    box-shadow: 0 0 0 3px rgba(31,78,121,0.1);
+    background: #fff;
+  }
+
+  textarea { resize: none; height: 80px; line-height: 1.6; }
+
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    background: #1F4E79;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 4px 14px rgba(31,78,121,0.3);
+  }
+
+  .btn-submit:active { transform: scale(0.98); background: #163d61; }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .msg {
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    display: none;
+  }
+
+  .msg.ok {
+    background: #F0FFF4;
+    color: #276749;
+    border: 1.5px solid #9AE6B4;
+    display: block;
+  }
+
+  .msg.err {
+    background: #FFF5F5;
+    color: #C53030;
+    border: 1.5px solid #FEB2B2;
+    display: block;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: -4px;
+    margin-right: 6px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .counter {
+    text-align: center;
+    font-size: 12px;
+    color: #A0AEC0;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>إضافة وحدة جديدة</h1>
+  <p>البيانات بتتحفظ تلقائيًا في الشيت</p>
+</div>
+
+<div class="form-body">
+
+  <div class="card">
+    <div class="card-title">بيانات الوحدة</div>
+
+    <div class="field">
+      <label class="required">اسم الكمبوند</label>
+      <input id="compound" type="text" placeholder="مثال: O West" />
+    </div>
+
+    <div class="field">
+      <label class="required">نوع العرض</label>
+      <select id="offer">
+        <option value="">اختر</option>
+        <option>للبيع</option>
+        <option>للإيجار</option>
+      </select>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label class="required">نوع الوحدة</label>
+        <select id="type">
+          <option value="">اختر</option>
+          <option>شقة</option>
+          <option>دوبلكس</option>
+          <option>بنتهاوس</option>
+          <option>تاون هاوس</option>
+          <option>توين هاوس</option>
+          <option>فيلا مستقلة</option>
+          <option>عيادة</option>
+          <option>مكتب إداري</option>
+          <option>محل تجاري</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>الدور</label>
+        <input id="floor" type="text" placeholder="3 أو أرضي" />
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label class="required">المساحة (م²)</label>
+        <input id="area" type="number" placeholder="124" inputmode="numeric" />
+      </div>
+      <div class="field">
+        <label class="required">السعر (جنيه)</label>
+        <input id="price" type="number" placeholder="8500000" inputmode="numeric" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>حالة التشطيب</label>
+      <select id="finish">
+        <option value="">اختر</option>
+        <option>تشطيب كامل</option>
+        <option>تشطيب سوبر لوكس</option>
+        <option>نصف تشطيب</option>
+        <option>طوب أحمر</option>
+        <option>ظاهر</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">بيانات المالك</div>
+
+    <div class="field">
+      <label class="required">اسم المالك</label>
+      <input id="owner" type="text" placeholder="أحمد محمد" />
+    </div>
+
+    <div class="field">
+      <label class="required">رقم الموبايل</label>
+      <input id="phone" type="tel" placeholder="01001234567" inputmode="tel" />
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">ملاحظات</div>
+    <div class="field">
+      <textarea id="notes" placeholder="أي تفاصيل إضافية عن الوحدة..."></textarea>
+    </div>
+  </div>
+
+  <button class="btn-submit" id="submitBtn" onclick="submitUnit()">إضافة الوحدة</button>
+
+  <div class="msg" id="msg"></div>
+  <div class="counter" id="counter"></div>
+
+</div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyV3FJ3pfnyOdJNjLNhm7jfxfn1HIgIuSuXTUER7HvS2IjvJhB9j4OslBD1YYOSj_3M4w/exec";
+
+let totalAdded = Number(localStorage.getItem('totalAdded') || 0);
+updateCounter();
+
+function updateCounter() {
+  if (totalAdded > 0) {
+    document.getElementById('counter').textContent = 'تم إضافة ' + totalAdded + ' وحدة في هذا الجهاز';
+  }
+}
+
+async function submitUnit() {
+  const btn = document.getElementById('submitBtn');
+  const msgEl = document.getElementById('msg');
+  msgEl.className = 'msg';
+  msgEl.textContent = '';
+
+  const compound = document.getElementById('compound').value.trim();
+  const offer = document.getElementById('offer').value;
+  const type = document.getElementById('type').value;
+  const floor = document.getElementById('floor').value.trim();
+  const area = document.getElementById('area').value.trim();
+  const price = document.getElementById('price').value.trim();
+  const finish = document.getElementById('finish').value;
+  const owner = document.getElementById('owner').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+
+  if (!compound || !offer || !type || !area || !price || !owner || !phone) {
+    msgEl.className = 'msg err';
+    msgEl.textContent = 'من فضلك املأ الحقول المطلوبة (*)';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> جاري الإضافة...';
+
+  try {
+    const values = ["", compound, offer, type, Number(area), Number(price), floor, finish, owner, phone, notes];
+
+    const url = SCRIPT_URL + "?values=" + encodeURIComponent(JSON.stringify(values));
+    const res = await fetch(url);
+    const json = await res.json();
+
+    if (json.status !== "ok") throw new Error(json.message || "error");
+
+    totalAdded++;
+    localStorage.setItem('totalAdded', totalAdded);
+    updateCounter();
+
+    msgEl.className = 'msg ok';
+    msgEl.textContent = 'تم إضافة الوحدة بنجاح في الشيت ✓';
+
+    ['compound','floor','area','price','owner','phone','notes'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('type').value = '';
+    document.getElementById('offer').value = '';
+    document.getElementById('finish').value = '';
+
+    setTimeout(() => { msgEl.className = 'msg'; }, 4000);
+
+  } catch (e) {
+    msgEl.className = 'msg err';
+    msgEl.textContent = 'في مشكلة في الاتصال، تأكد من النت وحاول تاني';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = 'إضافة الوحدة';
+}
+</script>
+</body>
+</html>
